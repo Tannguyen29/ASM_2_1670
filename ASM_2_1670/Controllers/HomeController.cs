@@ -1,32 +1,56 @@
-﻿using ASM_2_1670.Models;
+﻿using ASM_2_1670.Data;
+using ASM_2_1670.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace ASM_2_1670.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+        private ASM_2_1670Context _contexts;
 
-		public HomeController(ILogger<HomeController> logger)
-		{
-			_logger = logger;
-		}
+        public HomeController(ASM_2_1670Context context)
+        {
+            _contexts = context;
+        }
+        public IActionResult Index()
+        {
+            var _product = _contexts.Product.Include(p => p.Category);
+            return View(_product.ToList());
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        [Route("/Product")]
+        public IActionResult Product()
+        {
+            var _products = _contexts.Product.Include(p => p.Category);
+            return View(_products.ToList());
+        }
 
-		public IActionResult Privacy()
-		{
-			return View();
-		}
+        [Route("/ProductByCategory")]
+        public IActionResult ProductByCategory(int catId)
+        {
+            var _products = _contexts.Product.Include(p => p.Category).Where(p => p.CategoryID == catId);
+            return View(_products.ToList());
+        }
 
-		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-		public IActionResult Error()
-		{
-			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-		}
-	}
+        [Route("/ProductDetails")]
+        public async Task<IActionResult> ProductDetails(int? id)
+        {
+            if (id == null || _contexts.Product == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _contexts.Product
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(m => m.ProductID == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+    }
 }

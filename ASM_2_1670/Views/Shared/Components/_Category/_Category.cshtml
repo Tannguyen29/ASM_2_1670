@@ -1,0 +1,25 @@
+﻿@model IEnumerable<ASM_2_1670.Areas.Admin.Models.Category>
+
+<!-- NAVIGATION -->
+<nav id="navigation">
+	<!-- container -->
+	<div class="container">
+		<!-- responsive-nav -->
+		<div id="responsive-nav">
+			<!-- NAV -->
+			<ul class="main-nav nav navbar-nav">
+				<li class="active"><a href="#">Home</a></li>
+				<li><a asp-action="Product">Product</a></li>
+				<li><a href="#">Categories</a></li>
+				@foreach (var item in Model)
+				{
+					<li><a asp-action="ProductByCategory" asp-route-id="@item.CategoryID">@item.CategoryName</a></li>
+				}
+			</ul>
+			<!-- /NAV -->
+		</div>
+		<!-- /responsive-nav -->
+	</div>
+	<!-- /container -->
+</nav>
+<!-- /NAVIGATION -->
