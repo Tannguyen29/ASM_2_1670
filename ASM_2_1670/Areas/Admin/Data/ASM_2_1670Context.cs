@@ -21,5 +21,7 @@ namespace ASM_2_1670.Data
         public DbSet<ASM_2_1670.Areas.Admin.Models.Category> Category { get; set; } = default!;
 
         public DbSet<ASM_2_1670.Areas.Admin.Models.Product> Product { get; set; } = default!;
+
+        public DbSet<ASM_2_1670.Areas.Admin.Models.Order> Order { get; set; } = default!;
     }
 }
