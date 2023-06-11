@@ -1,0 +1,37 @@
+﻿@model ASM_2_1670.Areas.Admin.Models.Brand
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/Share/_AdminLayout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Brand</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandDescription)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BrandDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandOrder)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BrandOrder)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BrandId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

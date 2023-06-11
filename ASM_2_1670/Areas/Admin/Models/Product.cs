@@ -19,8 +19,10 @@ namespace ASM_2_1670.Areas.Admin.Models
 
 		// Navigation properties
 		[ForeignKey("CategoryID")]
-		public Category? Categories { get; set; }
-		public ICollection<CartDetail>? CartDetails { get; set; }
+		public Category? Category { get; set; }
+        [ForeignKey("BrandID")]
+		public Brand? Brand { get; set; }
+        public ICollection<CartDetail>? CartDetails { get; set; }
 		public ICollection<OrderDetail>? OrderDetails { get; set; }
 
 	}

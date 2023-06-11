@@ -15,5 +15,7 @@ namespace ASM_2_1670.Data
         }
 
         public DbSet<ASM_2_1670.Areas.Admin.Models.User> User { get; set; } = default!;
+
+        public DbSet<ASM_2_1670.Areas.Admin.Models.Brand> Brand { get; set; } = default!;
     }
 }
