@@ -41,8 +41,8 @@
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal">Tung</h5>
-                                <span>Admin</span>
+                                <h5 class="mb-0 font-weight-normal">Binh</h5>
+                                <span>Employee</span>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
@@ -86,17 +86,16 @@
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                   @* <a class="nav-link" href="~/Admin/Product/Index">*@
-                    <a class="nav-link" asp-area="Admin" asp-controller="Products" asp-action="index">
+                    @* <a class="nav-link" href="~/Admin/Product/Index">*@
+                    <a class="nav-link" asp-area="Employee" asp-controller="Products" asp-action="index">
                         <span class="menu-icon">
                             <i class="mdi mdi-speedometer"></i>
                         </span>
                         <span class="menu-title">Product</span>
                     </a>
                 </li>
-                
                 <li class="nav-item menu-items">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Categories" asp-action="index">
+                    <a class="nav-link" asp-area="Employee" asp-controller="Categories" asp-action="index">
                         <span class="menu-icon">
                             <i class="mdi mdi-laptop"></i>
                         </span>
@@ -104,19 +103,11 @@
                     </a>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Orders" asp-action="index">
+                    <a class="nav-link" asp-area="Employee" asp-controller="Orders" asp-action="index">
                         <span class="menu-icon">
                             <i class="mdi mdi-playlist-play"></i>
                         </span>
                         <span class="menu-title">Order</span>
-                    </a>
-                </li>
-                <li class="nav-item menu-items">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Users" asp-action="index">
-                        <span class="menu-icon">
-                            <i class="mdi mdi-security"></i>
-                        </span>
-                        <span class="menu-title">Account</span>
                     </a>
                 </li>
             </ul>
@@ -184,7 +175,7 @@
                             <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                                 <div class="navbar-profile">
                                     <img class="img-xs rounded-circle" src="~/Admin/images/faces/face15.jpg" alt="">
-                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Tung</p>
+                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Binh</p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
@@ -223,14 +214,14 @@
                 </div>
             </nav>
             <div class="container mt-7px">
-	            @RenderBody()
+                @RenderBody()
             </div>
-        <!--Start footer-->
+            <!--Start footer-->
             @*<footer class="footer">
-                <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                    <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
-                </div>
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
+            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+            </div>
             </footer>*@
             <!-- partial -->
         </div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ASM_2_1670.Areas.Admin.Models.Order>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Employee/Views/Share/_EmployeeLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Users)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Carts)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Users.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Carts.CartID)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.OrderID">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
