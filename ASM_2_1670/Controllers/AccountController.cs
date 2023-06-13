@@ -25,41 +25,51 @@ namespace ASM_2_1670.Areas.Admin.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Login(User _user)
-        {
-            var _users = _context.User.Where(model => model.UserEmail == _user.UserEmail && model.UserPassword == _user.UserPassword).FirstOrDefault();
-            if (_users == null)
-            {
-                ViewBag.LoginStatus = 0;
-            }
-            else
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, _users.UserEmail),
-                    new Claim("FullName", _users.UserName),
-                    new Claim(ClaimTypes.Role, _users.UserRole),
-                };
+		[HttpPost]
+		public async Task<IActionResult> Login(User _user)
+		{
+			var _users = _context.User.Where(model => model.UserEmail == _user.UserEmail && model.UserPassword == _user.UserPassword).FirstOrDefault();
 
-                var claimsIdentity = new ClaimsIdentity(
-                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
+			if (_users == null)
+			{
+				ViewBag.LoginStatus = 0;
+			}
+			else
+			{
+				var claims = new List<Claim>
+		{
+			new Claim(ClaimTypes.Name, _users.UserEmail),
+			new Claim("FullName", _users.UserName),
+			new Claim(ClaimTypes.Role, _users.UserRole),
+		};
 
-                var authProperties = new AuthenticationProperties
-                {
-                };
+				var claimsIdentity = new ClaimsIdentity(
+					claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    new ClaimsPrincipal(claimsIdentity),
-                    authProperties);
-                return RedirectToAction("Index", "Account");
-            }
-            return View();
-        }
+				var authProperties = new AuthenticationProperties();
+
+				await HttpContext.SignInAsync(
+					CookieAuthenticationDefaults.AuthenticationScheme,
+					new ClaimsPrincipal(claimsIdentity),
+					authProperties);
+
+				// Redirect to different pages depending on the user's role
+				if (_users.UserRole == "Admin")
+				{
+					return RedirectToAction("Index", "Admin");
+				}
+				else
+				{
+					return RedirectToAction("Index", "Home");
+				}
+			}
+
+			return View();
+		}
 
 
-        public IActionResult Logout()
+
+		public IActionResult Logout()
         {
             HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
