@@ -27,14 +27,16 @@ namespace ASM_2_1670.Controllers
             return View(_products.ToList());
         }
 
-		[Route("/ProductByCategory")]
-		public IActionResult ProductByCategory(int id)
-		{
-			var _products = _contexts.Product.Include(p => p.Category).Where(p => p.CategoryID == id);
-			return View(_products.ToList());
-		}
+        [Route("/ProductByCategory")]
+        public IActionResult ProductByCategory(int id)
+        {
+            var _products = _contexts.Product.Include(p => p.Category).Where(p => p.CategoryID == id);
+            return View(_products.ToList());
+        }
 
-		[Route("/ProductDetails")]
+
+
+        [Route("/ProductDetails")]
         public async Task<IActionResult> ProductDetails(int? id)
         {
             if (id == null || _contexts.Product == null)
