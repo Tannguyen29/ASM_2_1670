@@ -1,17 +1,19 @@
-﻿
+﻿@using ASM_2_1670.Areas.Admin.Models;
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
-@if(User.Identity.IsAuthenticated)
+@if (User.Identity.IsAuthenticated)
 {
-    <h1>Welcome or you can <a href="/Account/Logout">Logout</a></h1>
+    var user = (User)ViewBag.User;
+    <h1>Welcome @user.UserName</h1>
+    <p>Email: @user.UserEmail</p>
+    <p>Address: @user.UserAddress</p>
+    <p>Phone: @user.UserPhone</p>
+    <a href="/Account/Logout">Logout</a>
 }
-else 
+else
 {
     <h1>Please go to the<a href="/Account/Login">Login Page</a></h1>
 }
-

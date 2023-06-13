@@ -17,8 +17,10 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.User = GetCurrentUserInformation();
             return View();
         }
+
 
         public IActionResult Login()
         {
@@ -67,9 +69,15 @@ namespace ASM_2_1670.Areas.Admin.Controllers
 			return View();
 		}
 
+        public User GetCurrentUserInformation()
+        {
+            var email = User.Identity.Name;
+            var user = _context.User.FirstOrDefault(u => u.UserEmail == email);
+            return user;
+        }
 
 
-		public IActionResult Logout()
+        public IActionResult Logout()
         {
             HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
