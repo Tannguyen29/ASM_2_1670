@@ -21,6 +21,26 @@ namespace ASM_2_1670.Areas.Admin.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("UserId,UserName,UserEmail,UserPassword,UserPhone,UserAddress")] User user)
+        {
+            if (ModelState.IsValid)
+            {
+                user.UserRole = "User"; // Set the user role to "User" by default
+                _context.Add(user);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Login", "Account");
+            }
+            return View(user);
+        }
+
+
 
         public IActionResult Login()
         {

@@ -1,0 +1,76 @@
+﻿@model ASM_2_1670.Areas.Admin.Models.User
+@{
+    ViewData["Title"] = "Register";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+</head>
+<body>
+    <section class="vh-100" style="background-color: #508bfc;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+
+                            <h3 class="mb-5">Register</h3>
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(model => model.UserName, new {@class = "form-control rounded", @placeholder = "Enter Username" })
+                                    <label class="form-label" for="UserName">Username</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(model => model.UserEmail, new {@class = "form-control rounded", @placeholder = "Enter Email" })
+                                    <label class="form-label" for="UserEmail">Email</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    @Html.PasswordFor(model => model.UserPassword, new {@class = "form-control rounded", @placeholder = "Enter Password", @id = "password-input" })
+                                    <label class="form-label" for="UserPassword">Password</label>
+                                    <input type="checkbox" onclick="showHidePassword()">Show Password
+                                </div>
+
+
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(model => model.UserPhone, new {@class = "form-control rounded", @placeholder = "Enter Phone Number" })
+                                    <label class="form-label" for="UserPhone">Phone Number</label>
+                                </div>
+
+                                <div class="form-outline mb-4">
+                                    @Html.TextBoxFor(model => model.UserAddress, new {@class = "form-control rounded", @placeholder = "Enter Address" })
+                                    <label class="form-label" for="UserAddress">Address</label>
+                                </div>
+
+                                <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+
+                                <hr class="my-4">
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script>
+    function showHidePassword() {
+        var x = document.getElementById("password-input");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+
+</html>
