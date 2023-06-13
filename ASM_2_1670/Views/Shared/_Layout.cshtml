@@ -47,7 +47,21 @@
 					<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
 				</ul>
 				<ul class="header-links pull-right">
-					<li><a asp-controller="Account" asp-action="Login"><i class="fa fa-user-o"></i> My Account</a></li>
+					@{
+						var user = Context.User;
+					}
+
+					<li>
+						@if (user.Identity.IsAuthenticated)
+						{
+							<a asp-controller="Account" asp-action="Index"><i class="fa fa-user-o"></i> My Account</a>
+						}
+						else
+						{
+							<a asp-controller="Account" asp-action="Login"><i class="fa fa-user-o"></i> Login</a>
+						}
+					</li>
+
 				</ul>
 			</div>
 		</div>
