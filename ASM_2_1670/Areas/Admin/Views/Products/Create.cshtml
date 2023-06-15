@@ -38,7 +38,12 @@
             </div>
             <div class="form-group col-md-4">
                 <label asp-for="CategoryID" class="control-label"></label>
-                <select asp-for="CategoryID" class ="form-control" asp-items="ViewBag.CategoryID"></select>
+                <select asp-for="CategoryID" class="form-control" asp-items="ViewBag.CategoryID"></select>
+            </div>
+            <div class="form-group col-md-4">
+                <label asp-for="ShortDescription" class="control-label"></label>
+                <input asp-for="ShortDescription" class="form-control" />
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
             </div>
             <div class="form-group col-md-12">
                 <label asp-for="ProductDescription" class="control-label"></label>
@@ -67,4 +72,3 @@
             console.error(error);
         });
 </script>
-

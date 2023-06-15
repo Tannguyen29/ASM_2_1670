@@ -21,11 +21,24 @@ namespace ASM_2_1670.Areas.Employee.Controllers
         }
 
         // GET: Employee/Categories
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
               return _context.Category != null ? 
                           View(await _context.Category.ToListAsync()) :
                           Problem("Entity set 'ASM_2_1670Context.Category'  is null.");
+        }*/
+        public async Task<IActionResult> Index(string searchString)
+        {
+
+            var categories = from m in _context.Category
+                             select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                categories = categories.Where(s => s.CategoryName.Contains(searchString));
+            }
+
+            return View(await categories.ToListAsync());
         }
 
         // GET: Employee/Categories/Details/5

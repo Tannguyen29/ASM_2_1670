@@ -21,10 +21,23 @@ namespace ASM_2_1670.Areas.Employee.Controllers
         }
 
         // GET: Employee/Products
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             var aSM_2_1670Context = _context.Product.Include(p => p.Category);
             return View(await aSM_2_1670Context.ToListAsync());
+        }*/
+
+        public async Task<IActionResult> Index(string searchString)
+        {
+            var products = from m in _context.Product.Include(p => p.Category)
+                           select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.ProductName.Contains(searchString));
+            }
+
+            return View(await products.ToListAsync());
         }
 
         // GET: Employee/Products/Details/5
@@ -58,7 +71,7 @@ namespace ASM_2_1670.Areas.Employee.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductID,ProductName,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -92,7 +105,7 @@ namespace ASM_2_1670.Areas.Employee.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
         {
             if (id != product.ProductID)
             {

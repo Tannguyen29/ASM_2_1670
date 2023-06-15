@@ -32,6 +32,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Category)
             </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.ShortDescription)
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -56,6 +59,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.CategoryName)
             </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.ShortDescription)
+                </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ProductID">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ProductID">Details</a> |
