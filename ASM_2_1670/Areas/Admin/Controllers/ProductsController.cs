@@ -21,10 +21,19 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString)
         {
-            var aSM_2_1670Context = _context.Product.Include(p => p.Category);
-            return View(await aSM_2_1670Context.ToListAsync());
+
+            var products = from m in _context.Product
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products.Where(s => s.ProductName.Contains(searchString));
+            }
+
+            return View(await products.ToListAsync());
         }
 
         // GET: Admin/Products/Details/5

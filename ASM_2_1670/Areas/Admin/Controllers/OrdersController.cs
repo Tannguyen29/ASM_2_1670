@@ -28,6 +28,20 @@ namespace ASM_2_1670.Areas.Admin.Controllers
             return View(await aSM_2_1670Context.ToListAsync());
         }
 
+/*        public async Task<IActionResult> Index(string searchString)
+        {
+
+            var orders = from m in _context.Order
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                orders = orders.Where(s => s.OrderDetails.Contains(searchString));
+            }
+
+            return View(await orders.ToListAsync());
+        }*/
+
         // GET: Admin/Orders/Details/5
         public async Task<IActionResult> Details(int? id)
         {

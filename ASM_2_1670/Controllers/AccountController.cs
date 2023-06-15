@@ -80,10 +80,14 @@ namespace ASM_2_1670.Areas.Admin.Controllers
 				{
 					return RedirectToAction("Index", "Admin");
 				}
-				else
+				else if (_users.UserRole == "User")
 				{
 					return RedirectToAction("Index", "Home");
 				}
+                else if (_users.UserRole == "Employee")
+                {
+                    return RedirectToAction("Index", "Employee");
+                }
 			}
 
 			return View();

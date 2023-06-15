@@ -21,11 +21,19 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         }
 
         // GET: Admin/Users
-        public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index(string searchString)
         {
-              return _context.User != null ? 
-                          View(await _context.User.ToListAsync()) :
-                          Problem("Entity set 'ASM_2_1670Context.User'  is null.");
+
+            var users = from m in _context.User
+                         select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                users = users.Where(s => s.UserName.Contains(searchString));
+            }
+
+            return View(await users.ToListAsync());
         }
 
         // GET: Admin/Users/Details/5
