@@ -89,7 +89,8 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+				product.CreatedDate = DateTime.Now;
+				_context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ASM_2_1670.Areas.Admin.Models.Product>
+﻿@model HomeViewModel
+
 
 @{
     ViewData["Title"] = "Index";
@@ -28,7 +29,7 @@
 						<div id="tab1" class="tab-pane active">
 							<div class="products-slick" data-nav="#slick-nav-1">
 								<!-- product -->
-								@foreach (var item in Model)
+								@foreach (var item in Model.NewProducts)
 								{
 									<div class="product">
 										<div class="product-img">
@@ -62,52 +63,45 @@
 	</div>
 	<!-- /container -->
 </div>
-<!-- /SECTION -->
-<!-- HOT DEAL SECTION -->
-<div id="hot-deal" class="section">
+<!-- SECTION -->
+<div class="section">
 	<!-- container -->
 	<div class="container">
 		<!-- row -->
 		<div class="row">
+			<!-- section title -->
 			<div class="col-md-12">
-				<div class="hot-deal">
-					<h2 class="text-uppercase">hot deal this week</h2>
-					<p>New Collection Up to 50% OFF</p>
-					<a class="primary-btn cta-btn" href="#">Shop now</a>
+				<div class="section-title">
+					<h3 class="title">Hot Products</h3>
 				</div>
 			</div>
-		</div>
-		<!-- /row -->
-	</div>
-	<!-- /container -->
-</div>
-<!-- /HOT DEAL SECTION -->
+			<!-- /section title -->
 			<!-- Products tab & slick -->
 			<div class="col-md-12">
 				<div class="row">
 					<div class="products-tabs">
 						<!-- tab -->
-						<div id="tab2" class="tab-pane fade in active">
+						<div id="tab2" class="tab-pane active">
 							<div class="products-slick" data-nav="#slick-nav-2">
 								<!-- product -->
-								@foreach (var item in Model)
+								@foreach (var item in Model.HotProducts)
 								{
-								<div class="product">
-									<div class="product-img">
-								<img src="@item.ImageURL" alt="Product Image" />
-										<div class="product-label">
-											<span class="new">NEW</span>
+									<div class="product">
+										<div class="product-img">
+											<img src="@item.ImageURL" alt="Product Image" />
+											<div class="product-label">
+												<span class="hot">HOT</span>
+											</div>
+										</div>
+										<div class="product-body">
+											<p class="product-category">@item.Category.CategoryName</p>
+											<h3 class="product-name"> <a asp-action="ProductDetails" asp-route-id="@item.ProductID">@item.ProductName</a></h3>
+											<h4 class="product-price">$@item.Price</h4>
+										</div>
+										<div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 										</div>
 									</div>
-									<div class="product-body">
-										<p class="product-category">@item.Category.CategoryName</p>
-										<h3 class="product-name"> <a asp-action="ProductDetails" asp-route-id="@item.CategoryID">@item.ProductName</a></h3>
-										<h4 class="product-price">$@item.Price</h4>
-									</div>
-									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-									</div>
-								</div>
 								}
 								<!-- /product -->
 							</div>
@@ -116,8 +110,15 @@
 						<!-- /tab -->
 					</div>
 				</div>
-			</div>*
-<!-- SECTION -->
+			</div>
+			<!-- Products tab & slick -->
+		</div>
+		<!-- /row -->
+	</div>
+	<!-- /container -->
+</div>
+<!-- /SECTION -->
+
 <div class="section">
 	<!-- container -->
 	<div class="container">
@@ -134,7 +135,7 @@
 				<div class="products-widget-slick" data-nav="#slick-nav-3">
 					<div>
 						<!-- product widget -->
-						@foreach (var item in Model.Take(3))
+						@*@foreach (var item in Model.Take(3))
 								{
 						<div class="product-widget">
 							<div class="product-img">
@@ -208,7 +209,7 @@
 							</div>
 						</div>
 								}
-						<!-- /product widget -->
+						<!-- /product widget -->*@
 					</div>
 				</div>
 			</div>

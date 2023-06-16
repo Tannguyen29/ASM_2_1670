@@ -16,8 +16,10 @@ namespace ASM_2_1670.Controllers
         }
         public IActionResult Index()
         {
-            var _product = _contexts.Product.Include(p => p.Category);
-            return View(_product.ToList());
+            var _newProducts = _contexts.Product.Include(p => p.Category).OrderByDescending(p => p.CreatedDate).Take(10);
+            var _hotProducts = _contexts.Product.Include(p => p.Category).OrderByDescending(p => p.ViewCount).Take(10);
+            var model = new HomeViewModel { NewProducts = _newProducts.ToList(), HotProducts = _hotProducts.ToList() };
+            return View(model);
         }
 
         [Route("/Product")]
@@ -52,7 +54,12 @@ namespace ASM_2_1670.Controllers
                 return NotFound();
             }
 
+            // Increase view count
+            product.ViewCount += 1;
+            await _contexts.SaveChangesAsync();
+
             return View(product);
         }
+
     }
 }
