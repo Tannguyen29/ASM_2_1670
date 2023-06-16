@@ -469,9 +469,12 @@ textarea.input {
   position: relative;
 }
 
-.header-search form .input-select {
-  margin-right: -4px;
-  border-radius: 40px 0px 0px 40px;
+.header-search form .input {
+    width: calc(100% - 260px);
+    margin-right: -4px;
+    border: none;
+    border-radius: 40px 0px 0px 40px;
+}
 }
 
 .header-search form .input {
@@ -2192,3 +2195,26 @@ textarea.input {
 .ck-editor__editable_inline {
     min-height: 500px;
 }
+
+#bannerbanner {
+    width: 100%;
+    /*height: 300px;*/
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#banner-image {
+    width: 1520px;
+    height: 200px;
+}
+
+
+/*#banner-image {
+    max-width: 100%;
+    height: auto;
+}*/
+
+

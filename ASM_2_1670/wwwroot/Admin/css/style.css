@@ -21142,3 +21142,10 @@ div.tagsinput {
     min-height: 500px;
     color: black;
 }
+.container-fluid.page-body-wrapper {
+    background-color: #f3f5f7;
+}
+
+.container.mt-7px{
+    color: black;
+}
