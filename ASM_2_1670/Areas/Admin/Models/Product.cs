@@ -14,9 +14,10 @@ namespace ASM_2_1670.Areas.Admin.Models
 		public double Price { get; set; }
 		public int Stock { get; set; }
 		public string? ImageURL { get; set; }
+		public DateTime? CreatedDate { get; set; } = DateTime.Now;
 
-		// Foreign key
-		public int? CategoryID { get; set; }
+        // Foreign key
+        public int? CategoryID { get; set; }
 
 		// Navigation properties
 		[ForeignKey("CategoryID")]

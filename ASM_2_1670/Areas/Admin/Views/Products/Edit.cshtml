@@ -42,6 +42,11 @@
                 <span asp-validation-for="CategoryID" class="text-danger"></span>
             </div>
             <div class="form-group col-md-4">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group col-md-4">
                 <label asp-for="ShortDescription" class="control-label"></label>
                 <input asp-for="ShortDescription" class="form-control" />
                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
@@ -73,3 +78,5 @@
             console.error(error);
         });
 </script>
+
+

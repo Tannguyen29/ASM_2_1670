@@ -6,8 +6,6 @@
     Layout = "~/Areas/Admin/Views/Share/_AdminLayout.cshtml";
 }
 
-<script src="~/ckeditor5-build-classic/ckeditor.js"></script>
-
 <h2>Details</h2>
 
 <div>
@@ -51,6 +49,12 @@
             @Html.DisplayFor(model => model.ImageURL)
         </dd>
         <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Category)
         </dt>
         <dd>
@@ -62,5 +66,3 @@
     <a asp-action="Edit" asp-route-id="@Model.ProductID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>
-
-

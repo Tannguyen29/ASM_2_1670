@@ -26,6 +26,7 @@ namespace ASM_2_1670.Areas.Admin.Controllers
             var aSM_2_1670Context = _context.Product.Include(p => p.Category);
             return View(await aSM_2_1670Context.ToListAsync());
         }
+
         public async Task<IActionResult> Index(string searchString)
         {
 
@@ -52,7 +53,6 @@ namespace ASM_2_1670.Areas.Admin.Controllers
 
             return View(await products.ToListAsync());
         }
-
 
         // GET: Admin/Products/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -85,7 +85,7 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
+        public async Task<IActionResult> Create([Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CreatedDate,CategoryID")] Product product)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CategoryID")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductID,ProductName,ShortDescription,ProductDescription,Price,Stock,ImageURL,CreatedDate,CategoryID")] Product product)
         {
             if (id != product.ProductID)
             {
