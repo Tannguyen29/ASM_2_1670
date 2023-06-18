@@ -6,28 +6,34 @@
 
 	<div class="row">
 		<!-- product -->
-		@foreach (var item in Model)
-		{
-			<div class="col-md-4 col-xs-6">
-				<div class="product">
-					<div class="product-img">
-						<img src="@item.ImageURL" alt="Product Image" />
-						<div class="product-label">
-							<span class="new">NEW</span>
-						</div>
-					</div>
-					<div class="product-body">
-						<p class="product-category">@item.Category.CategoryName</p>
-						<h3 class="product-name"> <a asp-action="ProductDetails" asp-route-id="@item.ProductID">@item.ProductName</a></h3>
-						<h4 class="product-price">$@item.Price</h4>
-					</div>
-					<div class="add-to-cart">
-						<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-					</div>
-				</div>
-			</div>
-		}
-	</div>
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4 col-xs-6">
+            <div class="product">
+                <div class="product-img">
+                    <img src="@item.ImageURL" alt="Product Image" />
+                    <div class="product-label">
+                        <span class="new">NEW</span>
+                    </div>
+                </div>
+                <div class="product-body">
+                    <p class="product-category">@item.Category.CategoryName</p>
+                    <h3 class="product-name">
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.ProductID" asp-route-quantity="1">@item.ProductName</a>
+                    </h3>
+                    <h4 class="product-price">$@item.Price</h4>
+                </div>
+                <div class="add-to-cart">
+                    <form asp-controller="Cart" asp-action="AddToCart" method="post">
+                        <input type="hidden" name="productId" value="@item.ProductID" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+
 	<!-- /store products -->
 	<!-- store bottom filter -->
 	<div class="store-filter clearfix">

@@ -1,0 +1,44 @@
+﻿@model ASM_2_1670.Models.Cart
+
+@{
+    ViewData["Title"] = "Cart Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Cart Details</h1>
+
+@if (Model.CartDetails.Count == 0)
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartDetails)
+            {
+                <tr>
+                    <td>@item.Products.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>$@item.Products.Price</td>
+                    <td>$@(item.Quantity * item.Products.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>Total: $@Model.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price)</p>
+
+    <div>
+        <a href="@Url.Action("Index", "Product")">Continue Shopping</a>
+        <!-- Add any additional actions or buttons here, such as "Checkout" or "Clear Cart" -->
+    </div>
+}
