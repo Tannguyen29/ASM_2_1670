@@ -5,13 +5,88 @@
 }
 
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <meta name="viewport" content="width=device-width" />
-    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form by Colorlib</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/Account/fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="~/Account/css/style.css">
 </head>
 <body>
+    <div class="main">
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.UserName, new {@class = "form-control rounded", @placeholder = "Enter Username" })
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.UserEmail, new {@class = "form-control rounded", @placeholder = "Enter Email" })
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(model => model.UserPassword, new {@class = "form-control rounded", @placeholder = "Enter Password", @id = "password-input" })
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                @*<input type="button" onclick="showHidePassword()">Show Password*@
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.UserPhone, new {@class = "form-control rounded", @placeholder = "Enter Phone Number" })
+                                <label for="UserPhone"><i class="zmdi zmdi-phone"></i></label>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.UserAddress, new {@class = "form-control rounded", @placeholder = "Enter Address" })
+                                <label for="UserAddress"><i class="zmdi zmdi-my-location"></i></label>
+                            </div>
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                            </div>
+                        }
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                        <a href="#" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- JS -->
+    <script src="~/Account/vendor/jquery/jquery.min.js"></script>
+    <script src="~/Account/js/main.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+    <script>
+        function showHidePassword() {
+            var x = document.getElementById("password-input");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+    </script>
+</html>
+
+
+@*<body>
     <section class="vh-100" style="background-color: #508bfc;">
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
@@ -74,3 +149,4 @@
 </script>
 
 </html>
+*@

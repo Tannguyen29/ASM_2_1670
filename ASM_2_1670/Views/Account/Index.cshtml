@@ -3,17 +3,80 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!DOCTYPE html>
 
-@if (User.Identity.IsAuthenticated)
-{
-    var user = (User)ViewBag.User;
-    <h1>Welcome @user.UserName</h1>
-    <p>Email: @user.UserEmail</p>
-    <p>Address: @user.UserAddress</p>
-    <p>Phone: @user.UserPhone</p>
-    <a href="/Account/Logout">Logout</a>
-}
-else
-{
-    <h1>Please go to the<a href="/Account/Login">Login Page</a></h1>
-}
+<html lang="en">
+<head>
+    <!-- Add custom CSS -->
+    <style>
+        .user-info {
+            font-size: 1.5em;
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #000;
+            padding: 2em;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #f3f3f3;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+            .user-info h1 {
+                font-size: 2.5em;
+                margin-bottom: 1em;
+            }
+
+            .user-info p {
+                margin-bottom: 1em;
+            }
+
+            .user-info a {
+                display: inline-block;
+                color: #fff;
+                background-color: #007bff;
+                padding: 0.75em 1.5em;
+                text-decoration: none;
+                border-radius: 5px;
+                font-size: 1.2em;
+                transition: background-color 0.3s ease;
+            }
+
+                .user-info a:hover {
+                    background-color: #0056b3;
+                }
+
+        .alert {
+            font-size: 2em;
+            color: red;
+            text-align: center;
+            margin-top: 2em;
+        }
+
+            .alert a {
+                color: blue;
+                text-decoration: none;
+            }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        @if (User.Identity.IsAuthenticated)
+        {
+            var user = (User)ViewBag.User;
+            <div class="user-info">
+                <h1>Welcome, @user.UserName</h1>
+                <p><strong>Email:</strong> @user.UserEmail</p>
+                <p><strong>Address:</strong> @user.UserAddress</p>
+                <p><strong>Phone:</strong> @user.UserPhone</p>
+                <a href="/Account/Logout">Logout</a>
+            </div>
+        }
+        else
+        {
+            <div class="alert">
+                <p>Access Denied! Please log in to access user details. Go to the <a href="/Account/Login">Login Page</a>.</p>
+            </div>
+        }
+    </div>
+</body>
+</html>
