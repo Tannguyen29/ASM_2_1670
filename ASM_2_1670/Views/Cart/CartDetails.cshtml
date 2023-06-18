@@ -4,41 +4,72 @@
     ViewData["Title"] = "Cart Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<input type="hidden" id="cart-quantity" value="@ViewBag.CartQuantity" />
 
-<h1>Cart Details</h1>
 
-@if (Model.CartDetails.Count == 0)
-{
-    <p>Your cart is empty.</p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Quantity</th>
-                <th>Price</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.CartDetails)
-            {
-                <tr>
-                    <td>@item.Products.ProductName</td>
-                    <td>@item.Quantity</td>
-                    <td>$@item.Products.Price</td>
-                    <td>$@(item.Quantity * item.Products.Price)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container">
+    <h1 class="text-center">Cart Details</h1>
 
-    <p>Total: $@Model.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price)</p>
-
-    <div>
-        <a href="@Url.Action("Index", "Product")">Continue Shopping</a>
-        <!-- Add any additional actions or buttons here, such as "Checkout" or "Clear Cart" -->
-    </div>
-}
+    @if (Model.CartDetails.Count == 0)
+    {
+        <div class="text-center">
+            <p>Your cart is empty.</p>
+            <a href="@Url.Action("Index", "Product")" class="btn btn-primary">Continue Shopping</a>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-8">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CartDetails)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="media">
+                                        <img src="@item.Products.ImageURL" class="mr-3" alt="Product Image" width="64" height="64">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">@item.Products.ProductName</h5>
+                                            <p>@item.Products.ShortDescription</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>$@item.Products.Price</td>
+                                <td>$@(item.Quantity * item.Products.Price)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Summary</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Total Quantity
+                                <span class="badge badge-primary badge-pill">@Model.CartDetails.Sum(cd => cd.Quantity)</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Total Price
+                                <span class="badge badge-primary badge-pill">$@Model.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price)</span>
+                            </li>
+                        </ul>
+                        <a href="@Url.Action("Index", "Product")" class="btn btn-primary btn-block mt-3">Continue Shopping</a>
+                        <!-- Add any additional actions or buttons here, such as "Checkout" -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

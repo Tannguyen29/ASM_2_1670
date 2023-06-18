@@ -22,7 +22,11 @@
 					<h4 class="product-price">$@item.Price</h4>
 				</div>
 				<div class="add-to-cart">
-					<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					<form asp-controller="Cart" asp-action="AddToCart" method="post">
+						<input type="hidden" name="productId" value="@item.ProductID" />
+						<input type="hidden" name="quantity" value="1" />
+						<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+					</form>
 				</div>
 			</div>
 		</div>

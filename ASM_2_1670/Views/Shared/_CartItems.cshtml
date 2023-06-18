@@ -1,0 +1,27 @@
+﻿@model IEnumerable<ASM_2_1670.Models.CartDetail>
+
+<div class="cart-list">
+    @foreach (var item in Model)
+    {
+        <div class="product-widget">
+            <div class="product-img">
+                <img src="@item.Products.ImageURL" alt="">
+            </div>
+            <div class="product-body">
+                <h3 class="product-name"><a href="#">@item.Products.ProductName</a></h3>
+                <h4 class="product-price"><span class="qty">@item.Quantity</span>$@item.Products.Price</h4>
+            </div>
+            <button class="delete"><i class="fa fa-close"></i></button>
+        </div>
+    }
+</div>
+
+<div class="cart-summary">
+    <small>@Model.Count() Item(s) selected</small>
+    <h5>SUBTOTAL: $@Model.Sum(cd => cd.Quantity * cd.Products.Price)</h5>
+</div>
+
+<div class="cart-btns">
+    <a href="@Url.Action("CartDetails", "Cart")">View Cart</a>
+    <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+</div>

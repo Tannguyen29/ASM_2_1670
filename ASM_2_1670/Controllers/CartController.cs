@@ -27,12 +27,13 @@ namespace ASM_2_1670.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 // Get the user
-                var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
+                var user = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == User.Identity.Name);
 
                 if (user != null)
                 {
                     // Check if the cart already exists
-                    var cart = _context.Cart.FirstOrDefault(c => c.UserID == user.UserId);
+                    var cart = await _context.Cart.Include(c => c.CartDetails)
+                        .FirstOrDefaultAsync(c => c.UserID == user.UserId);
 
                     // If the cart does not exist, create a new one
                     if (cart == null)
@@ -65,11 +66,11 @@ namespace ASM_2_1670.Controllers
                         cart.CartDetails.Add(cartDetail);
                     }
 
-					// Save changes to the database
-					await _context.SaveChangesAsync();
+                    // Save changes to the database
+                    await _context.SaveChangesAsync();
 
-					return RedirectToAction("CartDetails", "Cart");
-				}
+                    return RedirectToAction("CartDetails", "Cart");
+                }
             }
 
             // If user is not authenticated, redirect them to the Login page
@@ -77,7 +78,7 @@ namespace ASM_2_1670.Controllers
         }
 
         [Route("/CartDetails")]
-        public IActionResult CartDetails()
+		public IActionResult CartDetails()
 		{
 			// Get the currently logged-in user
 			var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
@@ -90,13 +91,37 @@ namespace ASM_2_1670.Controllers
 
 				if (cart != null)
 				{
+					ViewBag.CartQuantity = cart.CartDetails.Sum(cd => cd.Quantity);
 					return View(cart);
 				}
 			}
 
 			// If there is no cart or user, you can handle the scenario as needed, such as displaying an empty cart view or an error message.
-			return View("EmptyCart");
+			ViewBag.CartQuantity = 0;
+			return PartialView("_EmptyCart");
 		}
+
+		[Route("/Cart/GetCartItems")]
+		public IActionResult GetCartItems()
+		{
+			// Lấy danh sách sản phẩm trong giỏ hàng
+			var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
+
+			if (user != null)
+			{
+				var cart = _context.Cart.Include(c => c.CartDetails).ThenInclude(cd => cd.Products)
+					.FirstOrDefault(c => c.UserID == user.UserId);
+
+				if (cart != null)
+				{
+					return PartialView("_CartItems", cart.CartDetails);
+				}
+			}
+
+			// Nếu không có giỏ hàng hoặc người dùng, trả về một phần tử HTML trống
+			return PartialView("_EmptyCart");
+		}
+
 
 	}
 }
