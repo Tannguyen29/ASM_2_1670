@@ -1,4 +1,4 @@
-﻿@model List<ASM_2_1670.Areas.Admin.Models.Order>
+﻿@model ASM_2_1670.Models.Cart
 
 @{
     ViewData["Title"] = "Checkout";
@@ -21,22 +21,25 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        @foreach(var items in Model)
-                        {
-                            <input value="@items.Users.UserName" name=""/>
-                            <input value="@items.Users.UserEmail" name=""/>
-                            <input value="@items.Users.UserAddress" name="" />
-                            <input value="@items.Users.UserPhone" name="" />
-                        } 
-
-                        <!-- ...Thêm các trường khác tương tự... -->
-
+                        <div class="form-group">
+                            <input class="input" type="text" name="UserName" value="@Model.Users.UserName" placeholder="User Name">
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="email" name="UserEmail" value="@Model.Users.UserEmail" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="text" name="UserAddress" value="@Model.Users.UserAddress" placeholder="Address">
+                        </div>
+                        <div class="form-group">
+                            <input class="input" type="tel" name="UserPhone" value="@Model.Users.UserPhone" placeholder="Phone">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" name="SaveAddress"> Save this address for next time</label>
+                        </div>
                         <button type="submit" class="primary-btn order-submit">Place order</button>
                     }
                 </div>
                 <!-- /Billing Details -->
-                <!-- ...Thêm phần giao diện cho Shiping address và Order notes... -->
-
             </div>
 
             <!-- Order Details -->
@@ -45,37 +48,28 @@
                     <h3 class="title">Your Order</h3>
                 </div>
                 <div class="order-summary">
-                    <!-- ...Phần giao diện cho đơn hàng... -->
-                    <div class="order-col">
-                        <div><strong>PRODUCT</strong></div>
-                        <div><strong>TOTAL</strong></div>
-                    </div>
-                    @foreach (var orderDetail in Model)
-                        {
+                    <!-- ... -->
                     <div class="order-products">
-                        
-                            @foreach (var od in orderDetail.OrderDetails)
-                            {
-                                <div class="order-col">
-                                    <div>@od.Quantity * @od.Product.ProductName</div>
-                                    <div>$@od.Price</div>
-                                </div>
-                            }
-                        
+                        @foreach (var cartDetail in Model.CartDetails)
+                        {
+                            <div class="order-col">
+                                <div>@cartDetail.Quantity x @cartDetail.Products.ProductName</div>
+                                <div>@(cartDetail.Quantity * cartDetail.Products.Price)</div>
+                            </div>
+                        }
+                        <div class="order-col">
+                            <strong>TOTAL: $</strong>
+                            <div><strong>@Model.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price)</strong></div>
+                        </div>
+
                     </div>
-                    <div class="order-col">
-                        <div>Shipping</div>
-                        <div><strong>FREE</strong></div>
-                    </div>
-                    <div class="order-col">
-                        <div><strong>TOTAL</strong></div>
-                            <div><strong class="order-total">$@orderDetail.TotalPrice</strong></div>
-                    </div>
-                    }
+                    <!-- ... -->
                 </div>
+                <!-- ... -->
+            </div>
 
-                <!-- ...Phần giao diện cho phương thức thanh toán và điều khoản... -->
 
+            <!-- /Order Details -->
             </div>
             <!-- /Order Details -->
         </div>

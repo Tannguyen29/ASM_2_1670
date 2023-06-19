@@ -1,82 +1,112 @@
 ﻿using System;
-using ASM_2_1670.Data;
-using ASM_2_1670.Models;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
+using ASM_2_1670.Data;
 using ASM_2_1670.Areas.Admin.Models;
-
+using Microsoft.AspNetCore.Authorization;
+using ASM_2_1670.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ASM_2_1670.Controllers
 {
     public class CheckoutController : Controller
     {
-        private readonly DbContextOptions<ASM_2_1670Context> _contextOptions;
-
         private readonly ASM_2_1670Context _context;
 
-        public CheckoutController(ASM_2_1670Context context, DbContextOptions<ASM_2_1670Context> contextOptions)
+        public CheckoutController(ASM_2_1670Context context)
         {
             _context = context;
-            _contextOptions = contextOptions;
         }
 
         // GET: Checkout
-        public ActionResult Index()
+        [Authorize]
+        public async Task<IActionResult> Index()
         {
-/*            var order = new Order();*/
-            return View();
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserEmail == User.Identity.Name);
+
+            var cart = await _context.Cart
+                .Include(c => c.CartDetails)
+                .ThenInclude(cd => cd.Products)
+                .FirstOrDefaultAsync(m => m.UserID == user.UserId);
+
+            if (cart == null)
+            {
+                // User does not have a cart, redirect them somewhere appropriate
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+
+            return View(cart);
         }
+
+        // POST: Checkout
 
         [HttpPost]
-        public ActionResult PlaceOrder(User user, Order order)
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> PlaceOrder([Bind("CartID,UserID")] Cart cart, bool SaveAddress = false)
         {
-            // Lưu thông tin người dùng vào cơ sở dữ liệu hoặc thực hiện các thao tác khác
-            // Ví dụ:
-            var dbContext = _context;
-            dbContext.User.Add(user);
-            dbContext.SaveChanges();
+            var user = await _context.User
+                .FirstOrDefaultAsync(m => m.UserEmail == User.Identity.Name);
 
-            // Xử lý đơn hàng
-            // Tạo ngày đặt hàng
-            order.DateCreated = DateTime.Now;
-            // Tính tổng giá trị đơn hàng
-            double totalPrice = CalculateTotalPrice(order.OrderDetails);
-            order.TotalPrice = totalPrice;
-            // Lưu đơn hàng vào cơ sở dữ liệu
-            dbContext.Order.Add(order);
-            dbContext.SaveChanges();
-
-            // Trừ đi stock trong sản phẩm
-            foreach (var orderDetail in order.OrderDetails)
+            if (ModelState.IsValid)
             {
-                var product = dbContext.Product.Find(orderDetail.ProductID);
-                if (product != null)
+                var totalOrderPrice = cart.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price);
+                // Create new Order
+                var order = new Order
                 {
-                    product.Stock -= orderDetail.Quantity;
-                    dbContext.SaveChanges();
+                    DateCreated = DateTime.Now,
+                    UserID = user.UserId,
+                    TotalPrice = totalOrderPrice,
+                    OrderStatus = "Pending"
+                };
+
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+
+                foreach (var cartDetail in cart.CartDetails)
+                {
+                    // Create OrderDetail for each CartDetail
+                    var orderDetail = new OrderDetail
+                    {
+                        OrderID = order.OrderID,
+                        ProductID = cartDetail.ProductID,
+                        Quantity = cartDetail.Quantity,
+                        Price = cartDetail.Products.Price
+                    };
+
+                    // Decrease the product stock
+                    var product = await _context.Product.FindAsync(cartDetail.ProductID);
+                    if (product != null)
+                    {
+                        product.Stock -= cartDetail.Quantity;
+                        _context.Product.Update(product);
+                    }
+
+                    _context.Add(orderDetail);
                 }
+
+                // Clear Cart
+                _context.CartDetail.RemoveRange(cart.CartDetails);
+
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction(nameof(CheckoutController.Confirmation));
             }
 
-            return RedirectToAction("Confirmation");
-        }
-
-        // Tính tổng giá trị đơn hàng
-        private double CalculateTotalPrice(List<OrderDetail> orderDetails)
-        {
-            double totalPrice = 0;
-            foreach (var orderDetail in orderDetails)
-            {
-                totalPrice += orderDetail.Price * orderDetail.Quantity;
-            }
-            return totalPrice;
+            return View(cart);
         }
 
 
-        [Route("Confirmation")]
+
+        [Route("/Confirmation")]
         public ActionResult Confirmation()
         {
             return View();
         }
     }
 }
+
+
+
