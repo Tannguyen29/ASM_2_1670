@@ -1,0 +1,133 @@
+﻿@using ASM_2_1670.Areas.Admin.Models;
+@model HomeViewModel;
+
+
+@{
+    ViewData["Title"] = "Index";
+    var products = ViewBag.searched_products as List<Product>;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (products != null)
+{
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h3 class="title">New Products</h3>
+					</div>
+				</div>
+				<!-- /section title -->
+				<!-- Products tab & slick -->
+				<div class="col-md-12">
+					<div class="row">
+						<div class="products-tabs">
+							<!-- tab -->
+							<div id="tab1" class="tab-pane active">
+								<div class="products-slick" data-nav="#slick-nav-1">
+									<!-- product -->
+									@foreach (var item in products)
+									{
+										<div class="product">
+											<div class="product-img">
+												<td>
+													<img src="@item.ImageURL" alt="Product Image" />
+												</td>
+												<div class="product-label">
+													<span class="new">NEW</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">@item.Category.CategoryName</p>
+												<h3 class="product-name"> <a asp-action="ProductDetails" asp-route-id="@item.ProductID">@item.ProductName</a></h3>
+												<h4 class="product-price">$@item.Price</h4>
+											</div>
+											<div class="add-to-cart">
+												<form asp-controller="Cart" asp-action="AddToCart" method="post">
+													<input type="hidden" name="productId" value="@item.ProductID" />
+													<input type="hidden" name="quantity" value="1" />
+													<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												</form>
+											</div>
+										</div>
+									}
+								</div>
+								<div id="slick-nav-1" class="products-slick-nav"></div>
+							</div>
+							<!-- /tab -->
+						</div>
+					</div>
+				</div>
+				<!-- Products tab & slick -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+			<!-- row -->
+			<div class="row">
+				<!-- section title -->
+				<div class="col-md-12">
+					<div class="section-title">
+						<h3 class="title">Hot Products</h3>
+					</div>
+				</div>
+				<!-- /section title -->
+				<!-- Products tab & slick -->
+				<div class="col-md-12">
+					<div class="row">
+						<div class="products-tabs">
+							<!-- tab -->
+							<div id="tab2" class="tab-pane active">
+								<div class="products-slick" data-nav="#slick-nav-2">
+									<!-- product -->
+									@foreach (var item in products)
+									{
+										<div class="product">
+											<div class="product-img">
+												<img src="@item.ImageURL" alt="Product Image" />
+												<div class="product-label">
+													<span class="hot">HOT</span>
+												</div>
+											</div>
+											<div class="product-body">
+												<p class="product-category">@item.Category.CategoryName</p>
+												<h3 class="product-name"> <a asp-action="ProductDetails" asp-route-id="@item.ProductID">@item.ProductName</a></h3>
+												<h4 class="product-price">$@item.Price</h4>
+											</div>
+											<div class="add-to-cart">
+												<form asp-controller="Cart" asp-action="AddToCart" method="post">
+													<input type="hidden" name="productId" value="@item.ProductID" />
+													<input type="hidden" name="quantity" value="1" />
+													<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+												</form>
+											</div>
+										</div>
+									}
+									<!-- /product -->
+								</div>
+								<div id="slick-nav-2" class="products-slick-nav"></div>
+							</div>
+							<!-- /tab -->
+						</div>
+					</div>
+				</div>
+				<!-- Products tab & slick -->
+			</div>
+			<!-- /row -->
+		</div>
+		<!-- /container -->
+	</div>
+}
+else{
+	<div>
+		<h1 class="text-center">No products found...</h1>
+	</div>
+}
