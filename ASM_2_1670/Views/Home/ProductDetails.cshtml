@@ -71,12 +71,11 @@
                         <li><a asp-action="ProductByCategory" asp-route-id="@Model.CategoryID">@Model.Category.CategoryName</a></li>
                     </ul>
 
-                    <ul class="product-links">
-                        <li>Share:</li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                        <li><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    <ul>
+                        <li>ShortDescription:</li>
+                        <p>
+                            @Html.Raw(Model.ShortDescription)
+                        </p>
                     </ul>
                 </div>
             </div>
