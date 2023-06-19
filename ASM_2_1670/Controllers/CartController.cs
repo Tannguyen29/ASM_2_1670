@@ -23,19 +23,19 @@ namespace ASM_2_1670.Controllers
         [HttpPost]
         public async Task<IActionResult> AddToCart(int productId, int quantity)
         {
-            // Check if user is logged in
+            // Kiểm tra xem người dùng đã đăng nhập chưa
             if (User.Identity.IsAuthenticated)
             {
-                // Get the user
+                // Lấy thông tin người dùng
                 var user = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == User.Identity.Name);
 
                 if (user != null)
                 {
-                    // Check if the cart already exists
+                    // Kiểm tra xem giỏ hàng đã tồn tại chưa
                     var cart = await _context.Cart.Include(c => c.CartDetails)
                         .FirstOrDefaultAsync(c => c.UserID == user.UserId);
 
-                    // If the cart does not exist, create a new one
+                    // Nếu giỏ hàng chưa tồn tại, tạo mới
                     if (cart == null)
                     {
                         cart = new Cart
@@ -46,17 +46,17 @@ namespace ASM_2_1670.Controllers
                         _context.Cart.Add(cart);
                     }
 
-                    // Check if the product already exists in the cart
+                    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
                     var cartDetail = cart.CartDetails.FirstOrDefault(cd => cd.ProductID == productId);
 
                     if (cartDetail != null)
                     {
-                        // If the product already exists in the cart, increase the quantity
+                        // Nếu sản phẩm đã tồn tại trong giỏ hàng, tăng số lượng
                         cartDetail.Quantity += quantity;
                     }
                     else
                     {
-                        // If the product does not exist in the cart, add it
+                        // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới
                         cartDetail = new CartDetail
                         {
                             CartID = cart.CartID,
@@ -66,62 +66,107 @@ namespace ASM_2_1670.Controllers
                         cart.CartDetails.Add(cartDetail);
                     }
 
-                    // Save changes to the database
+                    // Lưu các thay đổi vào cơ sở dữ liệu
                     await _context.SaveChangesAsync();
 
                     return RedirectToAction("CartDetails", "Cart");
                 }
             }
 
-            // If user is not authenticated, redirect them to the Login page
+            // Nếu người dùng chưa đăng nhập, chuyển hướng đến trang đăng nhập
             return RedirectToAction("Login", "Account");
         }
 
         [Route("/CartDetails")]
-		public IActionResult CartDetails()
-		{
-			// Get the currently logged-in user
-			var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
+        public IActionResult CartDetails()
+        {
+            // Lấy thông tin người dùng đã đăng nhập
+            var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
 
-			if (user != null)
-			{
-				// Get the cart for the user
-				var cart = _context.Cart.Include(c => c.CartDetails).ThenInclude(cd => cd.Products)
-					.FirstOrDefault(c => c.UserID == user.UserId);
+            if (user != null)
+            {
+                // Lấy giỏ hàng của người dùng
+                var cart = _context.Cart.Include(c => c.CartDetails).ThenInclude(cd => cd.Products)
+                    .FirstOrDefault(c => c.UserID == user.UserId);
 
-				if (cart != null)
-				{
-					ViewBag.CartQuantity = cart.CartDetails.Sum(cd => cd.Quantity);
-					return View(cart);
-				}
-			}
+                if (cart != null)
+                {
+                    ViewBag.CartQuantity = cart.CartDetails.Sum(cd => cd.Quantity);
+                    return View(cart);
+                }
+            }
 
-			// If there is no cart or user, you can handle the scenario as needed, such as displaying an empty cart view or an error message.
-			ViewBag.CartQuantity = 0;
-			return PartialView("_EmptyCart");
-		}
+            // Nếu không có giỏ hàng hoặc người dùng, bạn có thể xử lý tình huống theo ý muốn, chẳng hạn hiển thị một giao diện giỏ hàng trống hoặc thông báo lỗi.
+            ViewBag.CartQuantity = 0;
+            return PartialView("_EmptyCart");
+        }
 
-		[Route("/Cart/GetCartItems")]
-		public IActionResult GetCartItems()
-		{
-			// Lấy danh sách sản phẩm trong giỏ hàng
-			var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
+        [Route("/Cart/GetCartItems")]
+        public IActionResult GetCartItems()
+        {
+            // Lấy danh sách sản phẩm trong giỏ hàng
+            var user = _context.User.FirstOrDefault(u => u.UserEmail == User.Identity.Name);
 
-			if (user != null)
-			{
-				var cart = _context.Cart.Include(c => c.CartDetails).ThenInclude(cd => cd.Products)
-					.FirstOrDefault(c => c.UserID == user.UserId);
+            if (user != null)
+            {
+                var cart = _context.Cart.Include(c => c.CartDetails).ThenInclude(cd => cd.Products)
+                    .FirstOrDefault(c => c.UserID == user.UserId);
 
-				if (cart != null)
-				{
-					return PartialView("_CartItems", cart.CartDetails);
-				}
-			}
+                if (cart != null)
+                {
+                    return PartialView("_CartItems", cart.CartDetails);
+                }
+            }
 
-			// Nếu không có giỏ hàng hoặc người dùng, trả về một phần tử HTML trống
-			return PartialView("_EmptyCart");
-		}
+            // Nếu không có giỏ hàng hoặc người dùng, trả về một phần tử HTML trống
+            return PartialView("_EmptyCart");
+        }
 
+        [Route("/UpdateQuantity")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateQuantity(int productId, int quantity)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == User.Identity.Name);
+            if (user != null)
+            {
+                var cart = await _context.Cart.Include(c => c.CartDetails)
+                    .FirstOrDefaultAsync(c => c.UserID == user.UserId);
+                if (cart != null)
+                {
+                    var cartDetail = cart.CartDetails.FirstOrDefault(cd => cd.ProductID == productId);
+                    if (cartDetail != null)
+                    {
+                        cartDetail.Quantity = quantity;
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            return RedirectToAction("CartDetails", "Cart");
+        }
 
-	}
+        [Route("/RemoveFromCart")]
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromCart(int productId)
+        {
+            var user = await _context.User.FirstOrDefaultAsync(u => u.UserEmail == User.Identity.Name);
+            if (user != null)
+            {
+                var cart = await _context.Cart.Include(c => c.CartDetails)
+                    .FirstOrDefaultAsync(c => c.UserID == user.UserId);
+                if (cart != null)
+                {
+                    var cartDetail = cart.CartDetails.FirstOrDefault(cd => cd.ProductID == productId);
+                    if (cartDetail != null)
+                    {
+                        cart.CartDetails.Remove(cartDetail);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
+            return RedirectToAction("CartDetails", "Cart");
+        }
+
+        
+
+    }
 }

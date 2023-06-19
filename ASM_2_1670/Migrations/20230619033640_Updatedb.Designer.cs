@@ -4,6 +4,7 @@ using ASM_2_1670.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASM_2_1670.Migrations
 {
     [DbContext(typeof(ASM_2_1670Context))]
-    partial class ASM_2_1670ContextModelSnapshot : ModelSnapshot
+    [Migration("20230619033640_Updatedb")]
+    partial class Updatedb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,7 +99,7 @@ namespace ASM_2_1670.Migrations
 
                     b.HasIndex("ProductID");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetail");
                 });
 
             modelBuilder.Entity("ASM_2_1670.Areas.Admin.Models.Product", b =>
@@ -216,33 +219,6 @@ namespace ASM_2_1670.Migrations
                     b.ToTable("CartDetail");
                 });
 
-            modelBuilder.Entity("ASM_2_1670.Models.Payment", b =>
-                {
-                    b.Property<int>("PaymentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentID"));
-
-                    b.Property<double>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PaymentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("PaymentID");
-
-                    b.HasIndex("OrderID");
-
-                    b.ToTable("Payment");
-                });
-
             modelBuilder.Entity("ASM_2_1670.Areas.Admin.Models.Order", b =>
                 {
                     b.HasOne("ASM_2_1670.Models.Cart", "Carts")
@@ -316,17 +292,6 @@ namespace ASM_2_1670.Migrations
                     b.Navigation("Carts");
 
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("ASM_2_1670.Models.Payment", b =>
-                {
-                    b.HasOne("ASM_2_1670.Areas.Admin.Models.Order", "Orders")
-                        .WithMany()
-                        .HasForeignKey("OrderID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("ASM_2_1670.Areas.Admin.Models.Category", b =>
