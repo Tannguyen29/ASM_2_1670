@@ -1,0 +1,86 @@
+﻿@model List<ASM_2_1670.Areas.Admin.Models.Order>
+
+@{
+    ViewData["Title"] = "Checkout";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- SECTION -->
+<div class="section">
+    <!-- container -->
+    <div class="container">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-7">
+                <!-- Billing Details -->
+                <div class="billing-details">
+                    <div class="section-title">
+                        <h3 class="title">Billing address</h3>
+                    </div>
+                    @using (Html.BeginForm("PlaceOrder", "Checkout", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        @foreach(var items in Model)
+                        {
+                            <input value="@items.Users.UserName" name=""/>
+                            <input value="@items.Users.UserEmail" name=""/>
+                            <input value="@items.Users.UserAddress" name="" />
+                            <input value="@items.Users.UserPhone" name="" />
+                        } 
+
+                        <!-- ...Thêm các trường khác tương tự... -->
+
+                        <button type="submit" class="primary-btn order-submit">Place order</button>
+                    }
+                </div>
+                <!-- /Billing Details -->
+                <!-- ...Thêm phần giao diện cho Shiping address và Order notes... -->
+
+            </div>
+
+            <!-- Order Details -->
+            <div class="col-md-5 order-details">
+                <div class="section-title text-center">
+                    <h3 class="title">Your Order</h3>
+                </div>
+                <div class="order-summary">
+                    <!-- ...Phần giao diện cho đơn hàng... -->
+                    <div class="order-col">
+                        <div><strong>PRODUCT</strong></div>
+                        <div><strong>TOTAL</strong></div>
+                    </div>
+                    @foreach (var orderDetail in Model)
+                        {
+                    <div class="order-products">
+                        
+                            @foreach (var od in orderDetail.OrderDetails)
+                            {
+                                <div class="order-col">
+                                    <div>@od.Quantity * @od.Product.ProductName</div>
+                                    <div>$@od.Price</div>
+                                </div>
+                            }
+                        
+                    </div>
+                    <div class="order-col">
+                        <div>Shipping</div>
+                        <div><strong>FREE</strong></div>
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL</strong></div>
+                            <div><strong class="order-total">$@orderDetail.TotalPrice</strong></div>
+                    </div>
+                    }
+                </div>
+
+                <!-- ...Phần giao diện cho phương thức thanh toán và điều khoản... -->
+
+            </div>
+            <!-- /Order Details -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+</div>
+<!-- /SECTION -->

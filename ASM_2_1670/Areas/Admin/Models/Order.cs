@@ -20,7 +20,9 @@ namespace ASM_2_1670.Areas.Admin.Models
 		[ForeignKey("UserID")]
 		public User? Users { get; set; }
 		public Cart? Carts { get; set; } // Navigation property to Cart
-		public ICollection<OrderDetail>? OrderDetails { get; set; }
-		//public Payment Payment { get; set; }
-	}
+        
+		public List<OrderDetail> OrderDetails  = new List<OrderDetail>();
+        //public Payment Payment { get; set; }
+
+    }
 }
