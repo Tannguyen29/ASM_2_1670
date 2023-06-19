@@ -6,8 +6,8 @@ using System.Diagnostics;
 
 namespace ASM_2_1670.Controllers
 {
-	public class HomeController : Controller
-	{
+    public class HomeController : Controller
+    {
         private ASM_2_1670Context _contexts;
 
         public HomeController(ASM_2_1670Context context)
@@ -23,7 +23,24 @@ namespace ASM_2_1670.Controllers
             return View(model);
         }
 
-        [Route("/Product")]
+        [HttpGet]
+        [Route("/SearchProduct")]
+        public IActionResult SearchProduct(string searchString)
+        {
+			if (String.IsNullOrEmpty(searchString))
+			{
+				return View();
+			}
+            searchString = "iphone";
+			var searched_products = _contexts.Product.Where(s => s.ProductName.Contains(searchString)); // It's always null
+			Console.WriteLine("alskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjd");
+			Console.WriteLine(searchString);
+			ViewBag.searched_products = searched_products;
+            return View();
+		}
+
+
+		[Route("/Product")]
         public IActionResult Product()
         {
             var _products = _contexts.Product.Include(p => p.Category);
@@ -41,8 +58,7 @@ namespace ASM_2_1670.Controllers
 
         [Route("/ProductDetails")]
         public async Task<IActionResult> ProductDetails(int? id)
-        {
-            if (id == null || _contexts.Product == null)
+        {            if (id == null || _contexts.Product == null)
             {
                 return NotFound();
             }
