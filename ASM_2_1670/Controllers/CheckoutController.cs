@@ -52,6 +52,12 @@ namespace ASM_2_1670.Controllers
 
             if (ModelState.IsValid)
             {
+                var cardDetails = await _context.CartDetail.Include(cd => cd.Products)
+                    .Where(cd => cd.CartID == cart.CartID)
+                    .ToListAsync();
+
+                cart.CartDetails = cardDetails;
+
                 var totalOrderPrice = cart.CartDetails.Sum(cd => cd.Quantity * cd.Products.Price);
                 // Create new Order
                 var order = new Order
@@ -59,11 +65,14 @@ namespace ASM_2_1670.Controllers
                     DateCreated = DateTime.Now,
                     UserID = user.UserId,
                     TotalPrice = totalOrderPrice,
-                    OrderStatus = "Pending"
+                    OrderStatus = "Pending",
+                    CartID = cart.CartID
                 };
 
                 _context.Add(order);
                 await _context.SaveChangesAsync();
+
+                
 
                 foreach (var cartDetail in cart.CartDetails)
                 {
@@ -73,8 +82,12 @@ namespace ASM_2_1670.Controllers
                         OrderID = order.OrderID,
                         ProductID = cartDetail.ProductID,
                         Quantity = cartDetail.Quantity,
-                        Price = cartDetail.Products.Price
+                        Price = cartDetail.Products.Price,
+                        Orders = order,
+                        Product = cartDetail.Products
                     };
+
+                    _context.Add(orderDetail);
 
                     // Decrease the product stock
                     var product = await _context.Product.FindAsync(cartDetail.ProductID);
@@ -83,8 +96,7 @@ namespace ASM_2_1670.Controllers
                         product.Stock -= cartDetail.Quantity;
                         _context.Product.Update(product);
                     }
-
-                    _context.Add(orderDetail);
+                    
                 }
 
                 // Clear Cart

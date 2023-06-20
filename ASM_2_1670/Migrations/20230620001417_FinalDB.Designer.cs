@@ -4,6 +4,7 @@ using ASM_2_1670.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ASM_2_1670.Migrations
 {
     [DbContext(typeof(ASM_2_1670Context))]
-    partial class ASM_2_1670ContextModelSnapshot : ModelSnapshot
+    [Migration("20230620001417_FinalDB")]
+    partial class FinalDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,7 +245,7 @@ namespace ASM_2_1670.Migrations
                         .IsRequired();
 
                     b.HasOne("ASM_2_1670.Areas.Admin.Models.Product", "Product")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderDetail")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -300,7 +303,7 @@ namespace ASM_2_1670.Migrations
                 {
                     b.Navigation("CartDetails");
 
-                    b.Navigation("OrderDetails");
+                    b.Navigation("OrderDetail");
                 });
 
             modelBuilder.Entity("ASM_2_1670.Models.Cart", b =>

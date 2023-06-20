@@ -31,11 +31,9 @@ namespace ASM_2_1670.Controllers
 			{
 				return View();
 			}
-            searchString = "iphone";
-			var searched_products = _contexts.Product.Where(s => s.ProductName.Contains(searchString)); // It's always null
-			Console.WriteLine("alskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjdalskdalksdlkasdlaksjdlaksjd");
-			Console.WriteLine(searchString);
-			ViewBag.searched_products = searched_products;
+			var searched_products = _contexts.Product.Include(prd => prd.Category)
+                .Where(s => s.ProductName.Contains(searchString)); // It's always null
+			ViewBag.searched_products = searched_products.ToList();
             return View();
 		}
 

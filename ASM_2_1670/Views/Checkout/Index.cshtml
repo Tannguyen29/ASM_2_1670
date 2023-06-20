@@ -20,7 +20,8 @@
                     @using (Html.BeginForm("PlaceOrder", "Checkout", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
-
+                        <input class="hidden" type="text" name="UserId" value="@Model.Users.UserId" placeholder="User Name">
+                        <input class="hidden" type="text" name="CartID" value="@Model.CartID" placeholder="User Name">
                         <div class="form-group">
                             <input class="input" type="text" name="UserName" value="@Model.Users.UserName" placeholder="User Name">
                         </div>
