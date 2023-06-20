@@ -124,13 +124,13 @@
                         <span class="mdi mdi-menu"></span>
                     </button>
                     <ul class="navbar-nav w-100">
-                        <li class="nav-item w-100">
+                        @*<li class="nav-item w-100">
                             <form asp-action="Index" method="get" class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                                 <p>
                                     <input type="text" name="SearchString" class="form-control" placeholder="Search" />
                                 </p>
                             </form>
-                        </li>
+                        </li>*@
                     </ul>
                     <ul class="navbar-nav navbar-nav-right">
                         <li class="nav-item dropdown d-none d-lg-block">
@@ -184,18 +184,8 @@
                             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
-                                    <div class="preview-thumbnail">
-                                        <div class="preview-icon bg-dark rounded-circle">
-                                            <i class="mdi mdi-settings text-success"></i>
-                                        </div>
-                                    </div>
-                                    <div class="preview-item-content">
-                                        <p class="preview-subject mb-1">Settings</p>
-                                    </div>
-                                </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item">
+                                <a href="/Account/Logout" class="dropdown-item preview-item">
                                     <div class="preview-thumbnail">
                                         <div class="preview-icon bg-dark rounded-circle">
                                             <i class="mdi mdi-logout text-danger"></i>
@@ -205,8 +195,6 @@
                                         <p class="preview-subject mb-1">Log out</p>
                                     </div>
                                 </a>
-                                <div class="dropdown-divider"></div>
-                                <p class="p-3 mb-0 text-center">Advanced settings</p>
                             </div>
                         </li>
                     </ul>

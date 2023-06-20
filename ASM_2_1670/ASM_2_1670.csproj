@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Employee\Data\**" />
+    <Compile Remove="Areas\Employee\Models\**" />
+    <Content Remove="Areas\Employee\Data\**" />
+    <Content Remove="Areas\Employee\Models\**" />
+    <EmbeddedResource Remove="Areas\Employee\Data\**" />
+    <EmbeddedResource Remove="Areas\Employee\Models\**" />
+    <None Remove="Areas\Employee\Data\**" />
+    <None Remove="Areas\Employee\Models\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.7">
@@ -20,11 +31,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.7" />
     <PackageReference Include="OwlCarousel" Version="1.3.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Employee\Data\" />
-    <Folder Include="Areas\Employee\Models\" />
   </ItemGroup>
 
 </Project>
