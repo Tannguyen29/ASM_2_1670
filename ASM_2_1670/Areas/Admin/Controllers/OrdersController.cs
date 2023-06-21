@@ -22,25 +22,32 @@ namespace ASM_2_1670.Areas.Admin.Controllers
         }
 
         // GET: Admin/Orders
-        public async Task<IActionResult> Index()
+        /*public async Task<IActionResult> Index()
         {
             var aSM_2_1670Context = _context.Order.Include(o => o.Carts).Include(o => o.Users);
             return View(await aSM_2_1670Context.ToListAsync());
+        }*/
+        public async Task<IActionResult> Index()
+        {
+            var aSM_2_1670Context = _context.Order.Include(o => o.Carts).Include(o => o.Users)
+                                        .OrderByDescending(o => o.DateCreated);
+            return View(await aSM_2_1670Context.ToListAsync());
         }
 
-/*        public async Task<IActionResult> Index(string searchString)
-        {
 
-            var orders = from m in _context.Order
-                         select m;
+        /*        public async Task<IActionResult> Index(string searchString)
+                {
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                orders = orders.Where(s => s.OrderDetails.Contains(searchString));
-            }
+                    var orders = from m in _context.Order
+                                 select m;
 
-            return View(await orders.ToListAsync());
-        }*/
+                    if (!String.IsNullOrEmpty(searchString))
+                    {
+                        orders = orders.Where(s => s.OrderDetails.Contains(searchString));
+                    }
+
+                    return View(await orders.ToListAsync());
+                }*/
 
         // GET: Admin/Orders/Details/5
         public async Task<IActionResult> Details(int? id)
