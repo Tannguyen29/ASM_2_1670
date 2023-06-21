@@ -29,7 +29,7 @@
             @Html.DisplayNameFor(model => model.ProductDescription)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ProductDescription)
+            @Html.Raw(Model.ProductDescription)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Price)
@@ -47,7 +47,7 @@
             @Html.DisplayNameFor(model => model.ImageURL)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ImageURL)
+            <img src="@Model.ImageURL" alt="">
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.CreatedDate)
@@ -65,7 +65,9 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="ProductID" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <div class="form-group">
+            <button style="background-color: red;"><input type="submit" value="Delete" class="btn btn-default" /></button> |
+        </div>
         <a asp-action="Index">Back to List</a>
     </form>
 </div>

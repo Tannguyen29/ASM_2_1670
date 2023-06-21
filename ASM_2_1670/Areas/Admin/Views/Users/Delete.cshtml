@@ -52,7 +52,9 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="UserId" />
-        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <div class="form-group">
+            <button style="background-color: red;"><input type="submit" value="Delete" class="btn btn-default" /></button> |
+        </div>
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
